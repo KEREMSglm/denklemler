@@ -17,6 +17,7 @@ namespace Denklemler
             InitializeComponent();
         }
 
+        // Yardım penceresi kapandığında tetiklenir.
         private void Yardim_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Yardim Penceresine ait objenin tekrar kullanılması için

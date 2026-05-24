@@ -5,8 +5,12 @@ namespace Denklemler
 {
     public partial class Denklemler : Form
     {
+        // kökleri gösterirken virgülden sonra kaç basamak gösterileceðini belirten deðiþken
         private static int basamakAdedi = 3;
+        
+        // Yardým sayfasý
         private static Yardim yardim = new Yardim();
+        
         public Denklemler()
         {
             InitializeComponent();
@@ -14,6 +18,8 @@ namespace Denklemler
             yardim.Visible = false;
         }
 
+        // ekrandaki denklem tipi combobox ve label haricindeki bütün bileþenleri gizler.
+        // ekraný baþlangýç durumuna alýr.
         private void temizle()
         {
             denklemPanel.Visible = false;
@@ -31,6 +37,7 @@ namespace Denklemler
             cozumTemizle();
         }
 
+        // Denklem köklerini gösteren bileþenleri gizler ve kök deðerleri siler.
         private void cozumTemizle()
         {
             cozum1_label.Visible = false;
@@ -52,7 +59,8 @@ namespace Denklemler
 
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        //Denklem Tipi Degistiginde Tetiklenir
+        private void denklemTipiDegistir(object sender, EventArgs e)
         {
             katsayi_Label.Visible = true;
             imgDenklem.Visible = true;
@@ -76,6 +84,7 @@ namespace Denklemler
             }
         }
 
+        // BÝRÝNCÝ dereceden bir bilinmeyenli denklem secildiginde gerekli görsellerin görünmesini saglar.
         private void show1()
         {
             imgDenklem.Image = Properties.Resources.birinci_derece;
@@ -85,6 +94,8 @@ namespace Denklemler
             katSayiC(false);
             katSayiD(false);
         }
+        
+        // ÝKÝNCÝ dereceden bir bilinmeyenli denklem secildiginde gerekli görsellerin görünmesini saglar.
         private void show2()
         {
             imgDenklem.Image = Properties.Resources.ikinci_derece;
@@ -94,6 +105,8 @@ namespace Denklemler
             katSayiC(true);
             katSayiD(false);
         }
+
+        // ÜÇÜNCÜ dereceden bir bilinmeyenli denklem secildiginde gerekli görsellerin görünmesini saglar.
         private void show3()
         {
             imgDenklem.Image = Properties.Resources.ucuncu_derece;
@@ -104,6 +117,7 @@ namespace Denklemler
             katSayiD(true);
         }
 
+        // a katsayýsýnýn giriþ komponentleri flag parametresine göre gösterimini yapar ya da gizler.
         private void katSayiA(Boolean flag)
         {
             resim_A_Harfi.Visible = flag;
@@ -111,6 +125,8 @@ namespace Denklemler
             katsayi_Giris_A.Visible = flag;
             katsayi_Giris_A.Text = "";
         }
+
+        // b katsayýsýnýn giriþ komponentleri flag parametresine göre gösterimini yapar ya da gizler.
         private void katSayiB(Boolean flag)
         {
             resim_B_Harfi.Visible = flag;
@@ -118,6 +134,8 @@ namespace Denklemler
             katsayi_Giris_B.Visible = flag;
             katsayi_Giris_B.Text = "";
         }
+
+        // c katsayýsýnýn giriþ komponentleri flag parametresine göre gösterimini yapar ya da gizler.
         private void katSayiC(Boolean flag)
         {
             resim_C_Harfi.Visible = flag;
@@ -125,6 +143,8 @@ namespace Denklemler
             katsayi_Giris_C.Visible = flag;
             katsayi_Giris_C.Text = "";
         }
+
+        // d katsayýsýnýn giriþ komponentleri flag parametresine göre gösterimini yapar ya da gizler.
         private void katSayiD(Boolean flag)
         {
             resim_D_Harfi.Visible = flag;
@@ -133,6 +153,7 @@ namespace Denklemler
             katsayi_Giris_D.Text = "";
         }
 
+        // COZUM butonu týklandýðýnda tetiklenir.
         private void btnDenklemCoz_Click(object sender, EventArgs e)
         {
             if (denklemListComboBox.SelectedIndex == 1)
@@ -149,6 +170,8 @@ namespace Denklemler
             }
         }
 
+        // katsayi degerlerinin girlip girilmediðini kontrol eder.
+        // kontrol sonucuna göre ÇÖZÜM butonunu gizler ya da gösterir.
         private void metinKontrol(object sender, EventArgs e)
         {
             Boolean flagA = katsayi_Giris_A.Text.Length > 0;
@@ -163,18 +186,19 @@ namespace Denklemler
                 ;
         }
 
+        // Katsayý giriþlerinin sadece reel sayý olacak þekilde kontrolünü saðlar
         private void sayiKontrol(object sender, KeyPressEventArgs e)
         {
             TextBox tb = (TextBox)sender;
 
-            // Backspace vb.
+            // Backspace vb. tuþlarý geçmesini saðlar
             if (char.IsControl(e.KeyChar))
                 return;
 
             string text = tb.Text;
             int pos = tb.SelectionStart;
 
-            // Eksi iþareti
+            // Eksi iþareti kontrolünü yapar
             if (e.KeyChar == '-')
             {
                 // Sadece baþta olabilir ve 1 tane olabilir
@@ -184,10 +208,10 @@ namespace Denklemler
                 return;
             }
 
-            // Virgül
+            // Virgül kontrolünü yapar
             if (e.KeyChar == ',')
             {
-                // Tek virgül
+                // Tek virgül olmasýný saðlayan kontroldür
                 if (text.Contains(","))
                 {
                     e.Handled = true;
@@ -196,7 +220,6 @@ namespace Denklemler
 
                 // Virgül öncesinde en az 1 rakam olmalý
                 string temp = text.Replace("-", "");
-
                 if (temp.Length == 0)
                 {
                     e.Handled = true;
@@ -206,22 +229,23 @@ namespace Denklemler
                 return;
             }
 
-            // Rakam
+            // Rakam kontrolünü yapar
             if (char.IsDigit(e.KeyChar))
             {
+                // - önüne sayý giriþini engeller
                 if (text.StartsWith("-")&&pos==0)
                 {
                     e.Handled = true;
                     return;
                 }
                 
-                // Ýmlecin olduðu yere karakter eklenmiþ hali
+                // Ýmlecin olduðu yere karakter eklendiðinde deðerin yeni hali
                 string newText =
                     text.Substring(0, pos) +
                     e.KeyChar +
                     text.Substring(pos);
 
-                // Sayýsal kontrol için eksi kaldýr
+                // Sayýsal kontrol için eksi iþaretini kaldýr
                 string kontrol = newText.Replace("-", "");
 
                 // Virgül öncesi kýsmý al
@@ -235,21 +259,22 @@ namespace Denklemler
                 // 015
                 // -0002
                 // vb. engellenir
-
                 if (integerPart.Length > 1 && integerPart.StartsWith("0"))
                 {
                     e.Handled = true;
                     return;
                 }
 
+                // Diðer durumlar için sayý giriþine izin verilir.
                 return;
             }
 
-            // Diðer tüm karakterleri engelle
+            // Diðer tüm karakterler engellenir.
             e.Handled = true;
         }
 
-
+         
+        // BÝRÝNCÝ dereceden bir bilinmeyenli denklemin çözümünü yapar.
         private void coz1()
         {
             cozumTemizle();
@@ -263,6 +288,7 @@ namespace Denklemler
             cozum1Goster();
         }
 
+        // ÝKÝNCÝ dereceden bir bilinmeyenli denklemin çözümünü yapar.
         private void coz2()
         {
             cozumTemizle();
@@ -289,13 +315,14 @@ namespace Denklemler
             Complex x2 =
                 (-b - sqrtDelta) / (2 * a);
 
-            cozum1_label.Text = complexToString(x1);
-            cozum2_label.Text = complexToString(x2);
+            cozum1_label.Text = karmasikSayiyiMetneCevir(x1);
+            cozum2_label.Text = karmasikSayiyiMetneCevir(x2);
             denklemCozumBaslik_Label.Visible = true;
             denklem_Cozumu_Panel.Visible = true;
             cozum2Goster();
         }
 
+        // ÜÇÜNCÜ dereceden bir bilinmeyenli denklemin çözümünü yapar.
         private void coz3()
         {
             cozumTemizle();
@@ -368,20 +395,23 @@ namespace Denklemler
                         -(b + wk * C + delta0 / (wk * C)) / (3 * a);
                 }
             }
-            cozum1_label.Text = complexToString(roots[0]);
-            cozum2_label.Text = complexToString(roots[1]);
-            cozum3_label.Text = complexToString(roots[2]);
+            cozum1_label.Text = karmasikSayiyiMetneCevir(roots[0]);
+            cozum2_label.Text = karmasikSayiyiMetneCevir(roots[1]);
+            cozum3_label.Text = karmasikSayiyiMetneCevir(roots[2]);
 
             denklemCozumBaslik_Label.Visible = true;
             denklem_Cozumu_Panel.Visible = true;
             cozum3Goster();
         }
 
+        // BÝRÝNCÝ dereceden bir bilinmeyenli denklemin köklerini gösterir
         private void cozum1Goster()
         {
             cozum1_label.Visible = true;
             cozumX.Visible = true;
         }
+        
+        // ÝKÝNCÝ dereceden bir bilinmeyenli denklemin köklerini gösterir
         private void cozum2Goster()
         {
             cozum1_label.Visible = true;
@@ -390,6 +420,8 @@ namespace Denklemler
             cozum2_label.Visible = true;
             cozumX2.Visible = true;
         }
+
+        // ÜÇÜNCÜ dereceden bir bilinmeyenli denklemin köklerini gösterir
         private void cozum3Goster()
         {
             cozum1_label.Visible = true;
@@ -402,7 +434,8 @@ namespace Denklemler
             cozumX3.Visible = true;
         }
 
-        public static string complexToString(Complex c)
+        // Karmaþýk sayýyý metne çevirir.
+        public static string karmasikSayiyiMetneCevir(Complex c)
         {
             double real = c.Real;
             double imag = c.Imaginary;
@@ -425,11 +458,13 @@ namespace Denklemler
             return realStr + imagStr + "i";
         }
 
+        // TEMÝZLE butonu týklandýðýnda tetiklenir
         private void btnTemizle_Click(object sender, EventArgs e)
         {
             temizle();
         }
 
+        // Yardým ikonuna týklandýðýnda tetiklenir. Yardým sayfasýný açar. 
         private void yardimImg_Click(object sender, EventArgs e)
         {
             yardim.Visible = true;

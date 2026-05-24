@@ -93,7 +93,7 @@
             denklemListComboBox.Name = "denklemListComboBox";
             denklemListComboBox.Size = new Size(909, 65);
             denklemListComboBox.TabIndex = 0;
-            denklemListComboBox.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            denklemListComboBox.SelectedIndexChanged += denklemTipiDegistir;
             // 
             // denklemTipi
             // 
