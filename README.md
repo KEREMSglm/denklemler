@@ -1,2 +1,3 @@
-"# Denklemler Program" 
-"# Hazrlayan: Kerem SAGLAM" 
+\# Denklemler Programı
+# Hazırlayan: Kerem SAGLAM
+
